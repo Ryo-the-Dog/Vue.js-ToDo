@@ -1,0 +1,47 @@
+ <!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>子メソッドVueでTODO LIST</title>
+    <link rel="stylesheet" href="dist/css/app.css">
+    <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/e3ae05b8e6.js"></script>
+</head>
+<body>
+<style>
+    .list-enter-active, .list-leave-active {
+        transition: all 1s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+</style>
+<div class="main">
+<h1>TODOS</h1>
+    <header class="header">
+        <div id="add-todo">
+            <!-- 追加欄用コンポーネント生成 -->
+            <add-todo></add-todo>
+        </div>
+        <div id="search-todo">
+            <!-- 検索欄用コンポーネント生成 -->
+            <search-todo>
+            </search-todo>
+        </div>
+    </header>
+    <div class="todoapp">
+    <section class="main" v-cloak>
+        <ul class="todo-list" id="list-demo">
+            <div id="todo-list">
+                <todo-list>
+                </todo-list>
+            </div>
+        </ul>
+    </section>
+    </div>
+</div>
+<script src="dist/js/bundle.js"></script>
+</body>
+</html>
