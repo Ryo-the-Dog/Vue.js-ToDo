@@ -27,13 +27,9 @@
 
 <script>
 import Vue from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
 }
 
 // イベントバス(子コンポーネント間で値の受け渡し)のためのインスタンス
@@ -44,19 +40,16 @@ const bus4 = new Vue();
 
 const AddTodo = Vue.extend({
   name: 'add-todo',
-  data: function () {
+  data: function() {
     return {
-      newTodo: '', // 追加するTODO内容
+      newTodo: '',// 追加するTODO内容
       uid: 0,
-      errMsg: '', // 空欄時のエラ〜メッセージ ============================ 追加事項
-      canAddTodo: false, // 追加欄の変換時エンターキー制御 ============================ 追加事項
-      todos: [], // Todoの一覧の配列 ============================ 追加事項
-      catchedSearchText: '', // 検索欄に入力された文字をふるいに掛けるため。
+      errMsg: '',// 空欄時のエラ〜メッセージ
+      canAddTodo: false,// 追加欄の変換時エンターキー制御
+      todos: [],// Todoの一覧の配列
+      catchedSearchText: '',// 検索欄に入力された文字をふるいに掛けるため。
     }
   },
-  /* template内から直接Vueインスタンス内にアクセスすることができないので、
-  一旦template内とHTML内のタグを$emitで連携させる。 */
-  // props: ['newtodo','errmsg','canaddtodo','todos'],
   template: `
         <div>
             <p class="errMsg">{{ errMsg }}</p>
@@ -72,11 +65,11 @@ const AddTodo = Vue.extend({
         </div>
     `,
   mounted:function() {
-    bus2.$on('bus-second-event', this.catchSearchText );
+    bus2.$on('bus-second-event', this.catchSearchText);
     bus4.$on('bus-remove-event', this.catchRemovedTodo);
   },
   computed: {
-    filteredTodos: function () {
+    filteredTodos: function() {
       let todos = [];
       const regexp = new RegExp('^' + this.catchedSearchText, 'i');
       for(let i in this.todos){
@@ -89,13 +82,13 @@ const AddTodo = Vue.extend({
     },
   },
   methods: {
-    addTodo: function () { // TODO追加メソッド
+    addTodo: function() { // TODO追加メソッド
       if(!this.canAddTodo) {
         this.canAddTodo = '';
         return;
       }
       const value = this.newTodo && this.newTodo.trim(); // trim()で文字列両端の空白を削除する。
-      if (!value) { // 空白の場合
+      if(!value) { // 空白の場合
         this.canAddTodo = '';
         this.errMsg = '未入力です'; // errMsgにエラー内容を格納する
         return; // 追加処理せずに返す
@@ -130,10 +123,9 @@ Vue.component('add-todo', AddTodo)
 
 const SearchTodo = Vue.extend({
   name: 'search-todo',
-  data: function () {
+  data: function() {
     return {
-      searchText: '', // 検索ワード ============================ 追加事項
-      // firstTodos: [], TODO
+      searchText: '', // 検索ワード
     }
   },
   template: `
@@ -144,7 +136,7 @@ const SearchTodo = Vue.extend({
     `,
   methods: { // computedはドキュメントにも書いてありますが、高速化 and 省力化のためですね。
     // 検索欄に入力された文字をfilteredTodoで使うために、追加用コンポーネントに渡す。
-    throwSearchText: function () {
+    throwSearchText: function() {
       bus2.$emit('bus-second-event', this.searchText);
     },
   },
@@ -153,7 +145,7 @@ Vue.component('search-todo', SearchTodo)
 
 const TodoList = Vue.extend({
   name: 'todo-list',
-  data: function () {
+  data: function() {
     return {
       editedTodo: null, // labelクリックでeditedTodoがTODOになり、li要素に:classでeditingのクラス名が付与される。
       filteredTodos: [],
@@ -192,18 +184,18 @@ const TodoList = Vue.extend({
     },
     methods: {
         // TODO削除メソッド
-        removeTodo: function (todo) {
+        removeTodo: function(todo) {
             // 追加にせよ検索にせよ受け取ったTODO群から指定のTODOを削除して、追加欄コンポーネント(大元)に返す。
             this.filteredTodos.splice(this.filteredTodos.indexOf(todo), 1)
             bus4.$emit('bus-remove-event', this.filteredTodos);
         },
         // 編集モードに入る
-        editTodo: function (todo) {
+        editTodo: function(todo) {
             this.beforeEditCache = todo.title // エスケープキーで戻した時のために編集前のタスクを格納しておく。
             this.editedTodo = todo // editedTodoに当TODOを格納する
         },
         // 編集モード完了
-        doneEdit: function (todo) {
+        doneEdit: function(todo) {
             if (!this.editedTodo) {
                 return
             }
@@ -214,21 +206,21 @@ const TodoList = Vue.extend({
             }
         },
         // エスケープキーで編集モード終了
-        cancelEdit: function (todo) {
+        cancelEdit: function(todo) {
             this.editedTodo = null
             todo.title = this.beforeEditCache // TODO内容を元に戻す
         },
         // addTodoメソッドで渡ってきたTODO群をこのコンポーネント内で編集できるように格納する。
-        catchFirstTodos: function (firstTodos) {
+        catchFirstTodos: function(firstTodos) {
             this.filteredTodos = firstTodos;
         },
         // 検索でフィルターに掛けられたTODO群をこのコンポーネント内で編集できるように格納する。
-        catchTodos: function (filteredTodos) {
+        catchTodos: function(filteredTodos) {
             this.filteredTodos = filteredTodos;
         },
     },
     directives: { // 編集モードに入った時に、タスク内容に自動でフォーカスされる
-        'todo-focus': function (el, binding) {
+        'todo-focus': function(el, binding) {
             if (binding.value) {
                 el.focus()
             }
@@ -240,15 +232,6 @@ Vue.component('todo-list', TodoList)
 </script>
 
 <style>
-/*#app {*/
-/*  font-family: Avenir, Helvetica, Arial, sans-serif;*/
-/*  -webkit-font-smoothing: antialiased;*/
-/*  -moz-osx-font-smoothing: grayscale;*/
-/*  text-align: center;*/
-/*  color: #2c3e50;*/
-/*  margin-top: 60px;*/
-/*}*/
-/*@import "./src/assets/css/style.css";*/
 
 html,
 body,h1,p,div,section,h2,li,ul {
@@ -440,7 +423,7 @@ h1 {
   opacity: 0;
   z-index: 1;
 }
-/* チェックアイコン　自作 */
+/* チェックアイコン 自作 */
 .todo-list li .far {
   position: absolute;
   top: 15px;
@@ -485,8 +468,4 @@ h1 {
 .todo-list li:hover .destroy {
   /*display: block;*/
 }
-
-
-
-
 </style>
