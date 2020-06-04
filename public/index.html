@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Kalam&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/e3ae05b8e6.js"></script>
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <style>
+      .list-enter-active, .list-leave-active {
+        transition: all 1s;
+      }
+      .list-enter, .list-leave-to /* .list-leave-active for below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+    </style>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
